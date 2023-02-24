@@ -1,12 +1,25 @@
 name: Syntax Check
 
-on: [push, pull_request]
+on: [push,pull_request]
 
 jobs:
-  syntax-check:
+  format:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Anaconda-Action
-      uses: fdiblen/anaconda-action@0.1.20
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install black
+
+      - name: Run Black
+        run: black .
+
+      - name: Install Requirements
+        run: pip install -r requirements.txt
 
